@@ -1,21 +1,14 @@
 <?php
-class Admin_model extends CI_Model{
-	public static $pdo;
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+class Admin_model extends CI_Model
+{
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->library(array('session', 'pagination'));
 		$this->load->helper('url');
 		$this->load->database();
-
-		$database = $this->db->database;
-		$dbuser = $this->db->username;
-        $dbpassword = $this->db->password;
-		$conn = "mysql:host=localhost;dbname=$database;charset=utf8";
-		self::$pdo = new PDO($conn, $dbuser, $dbpassword);
-		self::$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);	//禁用模拟预处理语句,保证sql语句不被php解析
-		self::$pdo->exec("set names utf8");	
 	}
 	
 /*
@@ -25,14 +18,19 @@ class Admin_model extends CI_Model{
  */
 	function check($un, $pwd)
 	{
-		$pdo = self::$pdo;
-		$sql = "select * from admin_user where user_name = ? and password = ?";
-		$stmt = $pdo->prepare($sql);
-		$exec = $stmt->execute(array($un, $pwd));
-		if ($exec) {
-			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$stmt = $this->db->conn_id->stmt_init();
+		$sql = "select id, user_name from admin_user where user_name = ? and password = ?";
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param("ss", $un, $pwd);
+		$stmt->bind_result($id, $name);
+		$stmt->execute();
+		while($stmt->fetch()){
+			$res = array('id' => $id, 'user_name' => $name);
 		}
-		return $row;
+		$stmt->free_result();
+		$stmt->close();
+
+		return $res;
 	}
 	
 	function get_admin_message($username) 

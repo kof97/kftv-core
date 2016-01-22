@@ -242,25 +242,20 @@ class News_model extends CI_Model
 
 	function artUpdate($artId, $artTitle, $artContent, $source, $pubTime, $pubUser, $top, $hasVideo, $videoUrl, $isChecked, $checkC) 
 	{
+		$stmt = $this->db->conn_id->stmt_init();
 		if (trim($videoUrl) == "") {
-			$stmt = $this->db->conn_id->stmt_init();
 			$sql = " update news_article set article_title = ?, article_content = ?, source = ?, pub_time = '$pubTime',  
 					pub_user = '$pubUser', top = '$top', ischecked = '$isChecked', comment_checked = '$checkC' 
 					where article_id = '$artId' ";
-		  	$stmt = $this->db->conn_id->prepare($sql);
-			$stmt->bind_param("sss", $artTitle, $artContent, $source);
-			$stmt->execute();
-			$stmt->close();
 		} else {
-			$stmt = $this->db->conn_id->stmt_init();
 			$sql = " update news_article set article_title = ?, article_content = ?, source = ?, pub_time = '$pubTime',  
 					pub_user = '$pubUser', top = '$top', has_video = '$hasVideo', video_url = '$videoUrl', 
 					ischecked = '$isChecked', comment_checked = '$checkC' where article_id = '$artId' ";
-		  	$stmt = $this->db->conn_id->prepare($sql);
-			$stmt->bind_param("sss", $artTitle, $artContent, $source);
-			$stmt->execute();
-			$stmt->close();
 		}
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param("sss", $artTitle, $artContent, $source);
+		$stmt->execute();
+		$stmt->close();
 	}
 
 	function artJumpUpdate($artId, $artTitle, $artContent, $pubTime, $pubUser) 
@@ -354,66 +349,76 @@ class News_model extends CI_Model
 	}
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.7.15
-*	function : 模型-图片管理
-*/
-	function getPic($picId) {
+ * Edit By : LYJ
+ * Time : 2015.7.15
+ * Function : picture
+ * Review : LYJ . 2016.1.22
+ */
+	function getPic($picId) 
+	{
 		$sql = "select * from news_pic where id = $picId";
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
 
-	function getPicUrl($picId) {
+	function getPicUrl($picId) 
+	{
 		$sql = "select * from news_pic where id = $picId";
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
 
-	function picUpdate($picId, $picUrl, $picLink) {
+	function picUpdate($picId, $picUrl, $picLink) 
+	{
+		$stmt = $this->db->conn_id->stmt_init();
 		if (trim($picUrl) == "") {
-			$data = array('pic_link' => $picLink );
+			$sql = " update news_pic set pic_link = ? where id = '$picId' ";
 		} else {
-			$data = array(
-               		'pic_url' => $picUrl ,
-               		'pic_link' => $picLink 
-            	);
+			$sql = " update news_pic set pic_link = ?, pic_url = '$picUrl' where id = '$picId' ";
 		}
-		$this->db->where('id', $picId);
-		$this->db->update('news_pic', $data); 
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param("s", $picLink);
+		$stmt->execute();
+		$stmt->close();
 	}
 
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.7.17
-*	function : 模型-前台输出
-*/	
-	function getNewsByCat($offset, $pageSize, $catId) {
+ * Edit By : LYJ
+ * Time : 2015.7.17
+ * Function : front end
+ * Review : LYJ . 2016.1.22
+ */	
+	function getNewsByCat($offset, $pageSize, $catId) 
+	{
 		$sql = "select * from news_article where category_id = $catId and ischecked = 1 order by pub_time desc limit $offset, $pageSize ";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getPicNewsByCat($offset, $pageSize, $catId) {
+	function getPicNewsByCat($offset, $pageSize, $catId) 
+	{
 		$sql = "select * from news_article where category_id = $catId and ischecked = 1 and article_content like '%<img%' order by pub_time desc limit $offset, $pageSize ";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getVideoPicNews($offset, $pageSize, $hasVideo) {
+	function getVideoPicNews($offset, $pageSize, $hasVideo) 
+	{
 		$sql =  "select * from news_article where has_video = $hasVideo and ischecked = 1 and article_content like '%<img%' order by pub_time desc limit $offset, $pageSize ";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getVideoNews($offset, $pageSize, $hasVideo) {
+	function getVideoNews($offset, $pageSize, $hasVideo) 
+	{
 		$sql =  "select * from news_article where has_video = $hasVideo and ischecked = 1 order by pub_time desc limit $offset, $pageSize ";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getZixunjingxuan() {
+	function getZixunjingxuan() 
+	{
 		$arr = array(6, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 5);
 		$query = array();
 		foreach ($arr as $v) {
@@ -423,25 +428,29 @@ class News_model extends CI_Model
 		return $query;
 	}
 
-	function getRecentlyNews($offset, $pageSize) {
+	function getRecentlyNews($offset, $pageSize) 
+	{
 		$sql = "select * from news_article where ischecked = 1 order by pub_time desc limit $offset, $pageSize";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getHitsNews($offset, $pageSize) {
+	function getHitsNews($offset, $pageSize) 
+	{
 		$sql = "select * from news_article where ischecked = 1 order by hits desc limit $offset, $pageSize";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getNewsComments($offset, $pageSize, $artId) {
+	function getNewsComments($offset, $pageSize, $artId) 
+	{
 		$sql = "select * from news_comment where article_id = '$artId' and ischecked_c = 1 order by comment_time desc limit $offset, $pageSize";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getCommentsCount($artId) {
+	function getCommentsCount($artId) 
+	{
 		$this->db->from('news_comment');
 		$this->db->where('article_id', $artId);
 		$this->db->where('ischecked_c', 1);
@@ -450,11 +459,13 @@ class News_model extends CI_Model
 	}
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.7.22
-*	function : 模型-前台操作
-*/	
-	function addHits($artId) {
+ * Edit By : LYJ
+ * Time : 2015.7.22
+ * Function : front end operate
+ * Review : LYJ . 2016.1.22
+ */	
+	function addHits($artId) 
+	{
 		$sql = "select hits from news_article where article_id = '$artId'";
 		$hit = $this->db->query($sql)->result_array();
 		$hit = $hit[0]['hits'] + 1;
@@ -463,19 +474,26 @@ class News_model extends CI_Model
 		$this->db->query($sql);
 	}
 
-	function addComment($commentContent, $time, $ischecked_c, $artId, $pubUser, $pubUserId = "") {
+	function addComment($commentContent, $time, $ischecked_c, $artId, $pubUser, $pubUserId = "") 
+	{
 		$s = "select comment_count from news_article where article_id = '$artId'";
 		$num = $this->db->query($s)->row()->comment_count;
 		$num += 1;
 		$sq = "update news_article set comment_count = '$num' where article_id = '$artId'";
 		$this->db->query($sq);
 
+		$stmt = $this->db->conn_id->stmt_init();
 		if (trim($pubUserId) == "") {
-			$sql = "insert into news_comment (comment_content, comment_time, ischecked_c, article_id, comment_user) values ('$commentContent', '$time', '$ischecked_c', '$artId', '$pubUser')";
+			$sql = "insert into news_comment (comment_content, comment_time, ischecked_c, article_id, comment_user) 
+					values (?, '$time', '$ischecked_c', '$artId', '$pubUser')";
 		} else {
-			$sql = "insert into news_comment (comment_content, comment_time, ischecked_c, use_comment_id, article_id, comment_user) values ('$commentContent', '$time', '$ischecked_c', '$pubUserId', '$artId', '$pubUser')";
+			$sql = "insert into news_comment (comment_content, comment_time, ischecked_c, use_comment_id, article_id, 
+					comment_user) values (?, '$time', '$ischecked_c', '$pubUserId', '$artId', '$pubUser')";
 		}
-		$this->db->query($sql);
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param("s", $commentContent);
+		$stmt->execute();
+		$stmt->close();
 	}
 
 

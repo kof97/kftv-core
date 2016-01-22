@@ -1,28 +1,31 @@
 <?php 
-	error_reporting(E_ALL ^ E_NOTICE);
-	define('ACC',true);
+	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	
-	class N extends Ci_Controller {
+	class N extends Ci_Controller 
+	{
 		public static $uName;
 
-		public function __construct() {
+		public function __construct() 
+		{
 			parent::__construct();
 			$this->load->database();
 			$this->load->helper('url');
 			$this->load->library('pagination');
 			$this->load->helper(array('form', 'url'));
+
+			$this->load->model('news_model');
+			$this->load->model('program_model');
  		}
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.7.13
-*	function : 前台控制器
-*/
-		public function show(){
-			$this->load->model('news_model');
-			$this->load->model('program_model');
-
-			/*----head----*/
+ * Edit By : LYJ
+ * Time : 2015.7.13
+ * Function : front end
+ * Review : LYJ . 2016.1.22
+ */
+		public function show()
+		{
+			/*-- head --*/
 			$data['pic1'] = $this->news_model->getPicUrl(1);
 			$data['pic2'] = $this->news_model->getPicUrl(2);
 			$data['pic3'] = $this->news_model->getPicUrl(3);
@@ -48,7 +51,7 @@
 			$data['pic24'] = $this->news_model->getPicUrl(24);
 			$data['pic25'] = $this->news_model->getPicUrl(25);
 
-			/*--------视频----------*/
+			/*-- 视频 --*/
 			$data['video1'] = $this->news_model->getVideo(1);
 			$data['video2'] = $this->news_model->getVideo(2);
 			$data['video3'] = $this->news_model->getVideo(3);
@@ -114,11 +117,9 @@
 			$this->load->view('news/index', $data);
 		}
 
-		public function newsList() {
-			$this->load->model('news_model');
-			$this->load->model('program_model');
-
-			/*----head----*/
+		public function newsList() 
+		{
+			/*-- head --*/
 			$data['pic1'] = $this->news_model->getPicUrl(1);
 			$data['pic2'] = $this->news_model->getPicUrl(2);
 			$data['pic3'] = $this->news_model->getPicUrl(3);
@@ -126,7 +127,7 @@
 			$data['pic5'] = $this->news_model->getPicUrl(5);
 			$data['dianshilanmu'] = $this->program_model->getAllP(0, 22);
 
-			/*----list, news----*/
+			/*-- list / news --*/
 			$data['pic18'] = $this->news_model->getPicUrl(18);
 			$data['pic19'] = $this->news_model->getPicUrl(19);
 			$data['pic20'] = $this->news_model->getPicUrl(20);
@@ -134,29 +135,18 @@
 			$data['pic22'] = $this->news_model->getPicUrl(22);
 
 			$catId = intval($this->uri->segment(4));
-
-/*-----page-----*/
-			$page_size = 20;
+			/*-- page --*/
+			$pageSize = 20;
 
 			$this->db->from('news_article');
 			$this->db->where('category_id', $catId);
 			$total = $this->db->count_all_results();
-
-			$config['base_url'] = site_url('news/n/newsList/' . $catId);
-			$config['total_rows'] = $total;
-			$config['per_page'] = $page_size;
-			$config['first_link'] = '首页';
-			$config['last_link'] = '尾页';
-			$config['prev_link'] = '上一页';
-			$config['next_link'] = '下一页';
-			$config['uri_segment'] = 5;
-
-			$this->pagination->initialize($config);
+			$pageUri = 'news/n/newsList/' . $catId;
 			$offset = intval($this->uri->segment(5));
-			$data['page'] = $this->pagination->create_links();
-/*-----page-----*/
+
+			$data['page'] = $this->news_model->page($pageSize, $offset, $total, $pageUri, 5);
 			$data['cat'] = $this->news_model->getCatMessage($catId);
-			$data['artList'] = $this->news_model->getNewsByCat($offset, $page_size, $catId);
+			$data['artList'] = $this->news_model->getNewsByCat($offset, $pageSize, $catId);
 
 			$data['redianxinwen'] = $this->news_model->getHitsNews(0, 6);
 			$data['shishixinwen'] = $this->news_model->getRecentlyNews(0, 7);
@@ -164,11 +154,9 @@
 			$this->load->view('news/newslist', $data);
 		}
 
-		public function newsListV() {
-			$this->load->model('news_model');
-			$this->load->model('program_model');
-
-			/*----head----*/
+		public function newsListV() 
+		{
+			/*-- head --*/
 			$data['pic1'] = $this->news_model->getPicUrl(1);
 			$data['pic2'] = $this->news_model->getPicUrl(2);
 			$data['pic3'] = $this->news_model->getPicUrl(3);
@@ -176,35 +164,25 @@
 			$data['pic5'] = $this->news_model->getPicUrl(5);
 			$data['dianshilanmu'] = $this->program_model->getAllP(0, 22);
 
-			/*----list, news----*/
+			/*-- list / news --*/
 			$data['pic18'] = $this->news_model->getPicUrl(18);
 			$data['pic19'] = $this->news_model->getPicUrl(19);
 			$data['pic20'] = $this->news_model->getPicUrl(20);
 			$data['pic21'] = $this->news_model->getPicUrl(21);
 			$data['pic22'] = $this->news_model->getPicUrl(22);
 
-/*-----page-----*/
-			$page_size = 20;
+			/*-- page --*/
+			$pageSize = 20;
 
 			$this->db->from('news_article');
 			$this->db->where('has_video', 1);
 			$total = $this->db->count_all_results();
-
-			$config['base_url'] = site_url('news/n/newsListV/');
-			$config['total_rows'] = $total;
-			$config['per_page'] = $page_size;
-			$config['first_link'] = '首页';
-			$config['last_link'] = '尾页';
-			$config['prev_link'] = '上一页';
-			$config['next_link'] = '下一页';
-			$config['uri_segment'] = 4;
-
-			$this->pagination->initialize($config);
+			$pageUri = 'news/n/newsListV/';
 			$offset = intval($this->uri->segment(4));
-			$data['page'] = $this->pagination->create_links();
-/*-----page-----*/
+
+			$data['page'] = $this->news_model->page($pageSize, $offset, $total, $pageUri);
 			$data['cat'] = "视频新闻";
-			$data['artList'] = $this->news_model->getVideoNews($offset, $page_size, 1);
+			$data['artList'] = $this->news_model->getVideoNews($offset, $pageSize, 1);
 
 			$data['redianxinwen'] = $this->news_model->getHitsNews(0, 6);
 			$data['shishixinwen'] = $this->news_model->getRecentlyNews(0, 7);
@@ -212,11 +190,9 @@
 			$this->load->view('news/newslist', $data);
 		}
 
-		public function showNews() {
-			$this->load->model('news_model');
-			$this->load->model('program_model');
-
-			/*----head----*/
+		public function showNews() 
+		{
+			/*-- head --*/
 			$data['pic1'] = $this->news_model->getPicUrl(1);
 			$data['pic2'] = $this->news_model->getPicUrl(2);
 			$data['pic3'] = $this->news_model->getPicUrl(3);
@@ -224,7 +200,7 @@
 			$data['pic5'] = $this->news_model->getPicUrl(5);
 			$data['dianshilanmu'] = $this->program_model->getAllP(0, 22);
 
-			/*----list, news----*/
+			/*-- list / news --*/
 			$data['pic18'] = $this->news_model->getPicUrl(18);
 			$data['pic19'] = $this->news_model->getPicUrl(19);
 			$data['pic20'] = $this->news_model->getPicUrl(20);
@@ -252,11 +228,9 @@
 			$this->load->view('news/news', $data);
 		}
 
-		public function showNewsP() {
-			$this->load->model('news_model');
-			$this->load->model('program_model');
-
-			/*----head----*/
+		public function showNewsP() 
+		{
+			/*-- head --*/
 			$data['pic1'] = $this->news_model->getPicUrl(1);
 			$data['pic2'] = $this->news_model->getPicUrl(2);
 			$data['pic3'] = $this->news_model->getPicUrl(3);
@@ -264,7 +238,7 @@
 			$data['pic5'] = $this->news_model->getPicUrl(5);
 			$data['dianshilanmu'] = $this->program_model->getAllP(0, 22);
 
-			/*----list, news----*/
+			/*-- list / news --*/
 			$data['pic22'] = $this->news_model->getPicUrl(22);
 
 			$artId = intval($this->uri->segment(5));
@@ -286,17 +260,17 @@
 		}
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.7.23
-*	function : 前台-评论控制器
-*/
-		public function pubComment0() {
-  			$this->load->model('news_model');
-
-  			$commentContent = addslashes($this->input->post('comment_content'));
+ * Edit By : LYJ
+ * Time : 2015.7.23
+ * Function : front end comment
+ * LYJ . 2016.1.22
+ */
+		public function pubComment0() 
+		{
+  			$commentContent = $this->input->post('comment_content');
   			$time = date('Y-m-d h:i:s');
-  			$catId = $this->uri->segment(4);
-  			$artId = $this->uri->segment(5);
+  			$catId = intval($this->uri->segment(4));
+  			$artId = intval($this->uri->segment(5));
   			$ischecked_c = 1;
 
   			$pubUser = "游客";
@@ -309,13 +283,12 @@
   			}
 		}
 
-		public function pubComment1() {
-  			$this->load->model('news_model');
-
-  			$commentContent = addslashes($this->input->post('comment_content'));
+		public function pubComment1() 
+		{
+  			$commentContent = $this->input->post('comment_content');
   			$time = date('Y-m-d h:i:s');
-  			$catId = $this->uri->segment(4);
-  			$artId = $this->uri->segment(5);
+  			$catId = intval($this->uri->segment(4));
+  			$artId = intval($this->uri->segment(5));
   			$ischecked_c = 0;
 
   			$pubUser = "游客";
@@ -327,8 +300,5 @@
   				redirect('news/n/showNews/' . $catId . "/" . $artId);
   			}
 		}
-
-
-
 		
 	}

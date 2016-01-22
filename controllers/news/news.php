@@ -412,7 +412,8 @@
  * Function : comment
  * Review : LYJ . 2016.1.21
  */
-		public function showCommentsByNew() {
+		public function showCommentsByNew() 
+		{
 			$artId = intval($this->uri->segment(4));
 			/*-- page --*/
 			$pageSize = 20;
@@ -431,7 +432,8 @@
 			$this->load->view('admin/news/news_comment', $data);
 		}
 
-		public function commentDel() {
+		public function commentDel() 
+		{
 			$artId = intval($this->uri->segment(4));
 			$check = $this->input->post('check');
 			foreach ($check as $commentId) {
@@ -441,7 +443,8 @@
 			redirect('news/news/showCommentsByNew/' . $artId);
 		}
 
-		public function commentDel_u() {
+		public function commentDel_u() 
+		{
 			$check = $this->input->post('check');
 			foreach ($check as $commentId) {
 				$this->news_model->commentDel($commentId);
@@ -449,21 +452,24 @@
 			redirect('news/news/commentUnchecked/');
 		}
 
-		public function commentChecked() {
+		public function commentChecked() 
+		{
 			$commentId = intval($this->input->get("id"));
 			$ischecked = intval($this->input->get("check"));
 			$status = $this->news_model->commentChecked($commentId, $ischecked);
 			echo $status;
 		}
 
-		public function commentChecked_u() {
+		public function commentChecked_u() 
+		{
 			$commentId = intval($this->input->get("id"));
 			$ischecked = intval($this->input->get("check"));
 			$status = $this->news_model->commentChecked($commentId, $ischecked);
 			echo $status;
 		}
 
-		public function commentUnchecked() {
+		public function commentUnchecked() 
+		{
 			/*-- page --*/
 			$pageSize = 20;
 			$total = $this->news_model->getTotalComment();
@@ -478,14 +484,14 @@
 		}
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.7.23
-*	function : 后台控制器-图片管理
-*/
-		public function picManage() {
-			
-
-			/*----head----*/
+ * Edit By : LYJ
+ * Time : 2015.7.23
+ * Function : picture
+ * Review : LYJ . 2016.1.22
+ */
+		public function picManage() 
+		{
+			/*-- head --*/
 			$data['pic1'] = $this->news_model->getPicUrl(1);
 			$data['pic2'] = $this->news_model->getPicUrl(2);
 			$data['pic3'] = $this->news_model->getPicUrl(3);
@@ -513,10 +519,9 @@
 			$this->load->view('admin/news/pic_view', $data);
 		}
 
-		public function picManageL() {
-			
-
-			/*----list, news----*/
+		public function picManageL() 
+		{
+			/*-- list / news --*/
 			$data['pic18'] = $this->news_model->getPicUrl(18);
 			$data['pic19'] = $this->news_model->getPicUrl(19);
 			$data['pic20'] = $this->news_model->getPicUrl(20);
@@ -525,63 +530,35 @@
 
 			$this->load->view('admin/news/pic_view_l', $data);
 		}
-		public function picEditView() {
-			
 
+		public function picEditView() 
+		{
 			$picId = intval($this->uri->segment(4));
 			$data['pic'] = $this->news_model->getPic($picId);
 
 			$this->load->view('admin/news/pic_edit', $data);
 		}
 
-		public function picEdit() {
-			
-
-/*----图片上传-----*/
+		public function picEdit() 
+		{
+			/*-- picture --*/
 			$savePath = 'KFTVresource/News/pic/';
+			$data = $this->news_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $savePath;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$picUrl = $up?$savePath . $file_name:"";
+			$picUrl = $data?$savePath . $file_name:"";
 
 			$picId = intval($this->uri->segment(4));
 			$picLink = "http://" . $this->input->post('link');
 
 			$oldPicUrl = $this->news_model->getPicUrl($picId);
-
-			if ($up) {
+			if ($data) {
 				$path = BASEPATH . "../" . $oldPicUrl->pic_url;
 				$result = @unlink ($path); 
-			/*	if($result == true){
-					echo  "删除成功";
-				}
-				else{
-					exit("删除失败");
-				}*/
 			}
 			$this->news_model->picUpdate($picId, $picUrl, $picLink);
 			redirect('news/news/picManage');
 		}
-
 		
 	}
 
