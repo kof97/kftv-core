@@ -1,6 +1,10 @@
 <?php
-class Feature_model extends CI_Model {
-	function __construct() {
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Feature_model extends CI_Model 
+{
+	function __construct() 
+	{
 		parent::__construct();
 		$this->load->library(array('session', 'pagination'));
 		$this->load->helper('url');
@@ -8,38 +12,111 @@ class Feature_model extends CI_Model {
 	}
 
 /*
- *	Edit By : 阿诺
- *	Time : 2015.10.14
- *	function : 模型-子站点管理
+ * Edit By : LYJ
+ * Time : 2015.10.14
+ * Function : sub site
+ * Review : LYJ . 2016.1.23
  */	
-	function featureAdd($name, $title, $info) {
-		$sql = " insert into feature (name, title, info) values ('$name', '$title', '$info') ";
-		$this->db->query($sql);
+	function picture($savePath)
+	{
+		$config['overwrite']  = true;
+		$config['encrypt_name']  = true;
+
+		$config['upload_path'] = './' . $savePath;
+		$config['allowed_types'] = 'jpg|jpeg|gif|png';
+		$config['max_size'] = '2048';
+		$config['max_width']  = 0;
+		$config['max_height']  = 0;
+		$config['file_name'] = date("Ymdhis");
+	
+		$this->load->library('upload', $config);
+	
+		$up = $this->upload->do_upload('userfile');
+		/*debug if ( ! $up ) {
+					$error = array('error' => $this->upload->display_errors());
+				 	exit(var_dump($error));
+				} else {*/
+			  		$data = array('upload_data' => $this->upload->data());
+		/*		} */
+		return $up?$data:0;
 	}
 
-	function getAllFeature($offset, $page_size) {
+	function video($savePath) 
+	{
+		$config['overwrite']  = true;
+	  	$config['encrypt_name']  = true;
+
+		$config['upload_path'] = './' . $savePath;
+	  	$config['allowed_types'] = '*';
+	  	$config['max_size'] = '102400';
+	  	$config['max_width']  = 0;
+	  	$config['max_height']  = 0;
+	  	$config['file_name'] = date("Ymdhis");
+	  
+	  	$this->load->library('upload', $config);
+	 
+		$up = $this->upload->do_upload('userfile');
+		/*debug 
+			if ( ! $up ) {
+				$error = array('error' => $this->upload->display_errors());
+		  		exit(var_dump($error));
+		  	} else {*/
+		 	  	$data = array('upload_data' => $this->upload->data());
+		/*	}*/
+		return $up?$data:0;
+	}
+	
+	function page($pageSize, $offset, $total, $pageUri, $uriSegment = 4) 
+	{
+		$config['base_url'] = site_url($pageUri);
+		$config['total_rows'] = $total;
+		$config['per_page'] = $pageSize;
+		$config['first_link'] = '首页';
+		$config['last_link'] = '尾页';
+		$config['prev_link'] = '上一页';
+		$config['next_link'] = '下一页';
+		$config['uri_segment'] = $uriSegment;
+
+		$this->pagination->initialize($config);
+		$page = $this->pagination->create_links();
+		return $page;
+	}
+
+	function featureAdd($name, $title, $info) 
+	{
+		$stmt = $this->db->conn_id->stmt_init();
+		$sql = " insert into feature (name, title, info) values (?, ?, ?) ";
+  		$stmt = $this->db->conn_id->prepare($sql);
+	  	$stmt->bind_param("sss", $name, $title, $info);
+	  	$stmt->execute();
+	  	$stmt->close();
+	}
+
+	function getAllFeature($offset, $page_size) 
+	{
 		$sql = "select * from feature limit $offset, $page_size";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
-	function getFeature($fid) {
+	function getFeature($fid) 
+	{
 		$sql = "select * from feature where fid = $fid";
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
 
-	function featureUpdate($name, $title, $info, $fid) {
-		$data = array(
-            'name' => $name ,
-            'title' => $title ,
-            'info' => $info
-        );
-		$this->db->where('fid', $fid);
-		$this->db->update('feature', $data); 
+	function featureUpdate($name, $title, $info, $fid) 
+	{
+		$stmt = $this->db->conn_id->stmt_init();
+		$sql = " update feature set name = ?, title = ?, info = ? where fid = '$fid' ";
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param("sss", $name, $title, $info);
+		$stmt->execute();
+		$stmt->close();
 	}
 
-/* logo */
+	/*-- logo --*/
 	function getLogo($fid, $name) {
 		$sql = "select * from feature_article where fid = $fid and title = '$name' and type = 1";
 		$query = $this->db->query($sql);
@@ -58,7 +135,7 @@ class Feature_model extends CI_Model {
 		}
 	}
 
-/* category */
+	/* category */
 	function getCats($fid, $offset, $page_size) {
 		$sql = "select * from feature_category where fid = '$fid' limit $offset, $page_size";
 		$query = $this->db->query($sql);

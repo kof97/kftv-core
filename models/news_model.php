@@ -139,8 +139,8 @@ class News_model extends CI_Model
 			// delete catgory
 			$sql = " delete from news_category where category_id = '$cid' ";
 			$this->db->query($sql);
-			// delete news
-			$sql = " delete from news_article where category_id = '$cid' ";
+			// update news 
+			$sql = " update news_article set category_name = '栏目已删除' where category_id = '$cid' ";
 			$this->db->query($sql);
 		$this->db->trans_complete();
 	}
@@ -168,9 +168,9 @@ class News_model extends CI_Model
 		$stmt = $this->db->conn_id->stmt_init();
 		$sql = " insert into news_article (article_title, article_content, source, pub_time, pub_user, top, 
 				has_video, video_url, ischecked, category_id, category_name, comment_checked) values (?, ?, ?, 
-				'$pubTime', '$pubUser', '$top', '$hasVideo', '$videoUrl', '$isChecked', $cid, '$catName', '$checkC') ";
+				'$pubTime', '$pubUser', '$top', '$hasVideo', '$videoUrl', '$isChecked', '$cid', ?, '$checkC') ";
 	  	$stmt = $this->db->conn_id->prepare($sql);
-		$stmt->bind_param("sss", $artTitle, $artContent, $source);
+		$stmt->bind_param("ssss", $artTitle, $artContent, $source, $catName);
 		$stmt->execute();
 		$stmt->close();
 	}

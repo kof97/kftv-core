@@ -11,7 +11,7 @@
 
 			session_start();
 			$ok = $_SESSION['admin'];
-	 		if (!isset($ok) || $ok != 'kftv') {
+	 		if ( !isset($ok) || $ok != 'kftv' ) {
 	 			redirect("admin/login/denglu");
 	 		}
 	 		self::$userName = $_SESSION['username'];

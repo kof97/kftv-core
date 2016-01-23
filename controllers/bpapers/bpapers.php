@@ -1,94 +1,66 @@
 <?php 
-
-	define('ACC',true);
+	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	
-	class Bpapers extends Ci_Controller {
+	class Bpapers extends Ci_Controller 
+	{
 		public static $uName;
 
-		public function __construct() {
+		public function __construct() 
+		{
 			parent::__construct();
+			session_start();
+			$ok = $_SESSION['admin'];
+	 		if ( !isset($ok) || $ok != 'kftv' ) {
+	 			redirect("admin/login/denglu");
+	 		}
 			$this->load->database();
 			$this->load->helper('url');
 			$this->load->library('pagination');
 			$this->load->helper(array('form', 'url'));
-			session_start();
+			$this->load->model('bpapers_model');
+			
 			self::$uName = $_SESSION['username'];
-			self::$uName = addslashes(self::$uName);
-
-			$ok = $_SESSION['admin'];
-	 		if(!isset($ok) || $ok != 'kftv'){
-	 			redirect("admin/login/denglu");
-	 		}
+			self::$uName = self::$uName;
  		}
 /*
-*	Edit By : 阿诺
-*	Time : 2015.8.13
-*	function : 后台控制器-报刊管理
-*/
-		public function bpapersManage() {
-			$this->load->model('bpapers_model');
-
-/*-----page-----*/
-			$page_size = 20;
+ * Edit By : LYJ
+ * Time : 2015.8.13
+ * Function : newspapers
+ * Review : LYJ . 2016.1.22
+ */
+		public function bpapersManage() 
+		{
+			/*-- page --*/
+			$pageSize = 20;
 			$offset = intval($this->uri->segment(4));
 
 			$this->db->from('bnewspaper');
 			$total = $this->db->count_all_results();
-
-			$config['base_url'] = site_url('bpapers/bpapers/bpapersManage');
-			$config['total_rows'] = $total;
-			$config['per_page'] = $page_size;
-			$config['first_link'] = '首页';
-			$config['last_link'] = '尾页';
-			$config['prev_link'] = '上一页';
-			$config['next_link'] = '下一页';
-			$config['uri_segment'] = 4;
-
-			$this->pagination->initialize($config);
-			$data['page'] = $this->pagination->create_links();
-/*-----page-----*/
+			$pageUri = 'bpapers/bpapers/bpapersManage';
+			
+			$data['page'] = $this->bpapers_model->page($pageSize, $offset, $total, $pageUri) ;
 			$data['total'] = $total;
 
-			//$data['usingCat'] = $this->news_model->getUsingCat();
-			$data['bpList'] = $this->bpapers_model->getAllbp($offset, $page_size);
+			$data['bpList'] = $this->bpapers_model->getAllbp($offset, $pageSize);
 			$this->load->view('admin/bpapers/bpapers_list', $data);
 		}
 
-		public function bpAddView() {
-			$this->load->model('bpapers_model');
+		public function bpAddView() 
+		{
 			$this->load->view('admin/bpapers/add_bp');
 		}
 
-		public function bpAdd() {
-			$this->load->model('bpapers_model');
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Bpaper/';
+		public function bpAdd() 
+		{
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Bpaper/';
+			$data = $this->bpapers_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$picture = $up?$save_path . $file_name:"";
+			$picture = $data?$savePath . $file_name:"";
 
-			$nowIssue = $this->input->post('nowIssue');
-			$totalIssue = $this->input->post('totalIssue');
+			$nowIssue = $this->input->post('nowIssue', true);
+			$totalIssue = $this->input->post('totalIssue', true);
 			$pubTime = $this->input->post('pubTime');
 			$pubTime = $pubTime . " " . date("h:i:s");
 			$time = date("Y-m-d h:i:s");
@@ -97,199 +69,149 @@
 			redirect('bpapers/bpapers/bpapersManage');
 		}
 
-		public function bpEdit() {
-			$this->load->model('bpapers_model');
-
-			$bid = $this->uri->segment(4);
+		public function bpEdit() 
+		{
+			$bid = intval($this->uri->segment(4));
 			$data['bpDetail'] = $this->bpapers_model->getBpById($bid);
 			$this->load->view('admin/bpapers/bp_edit', $data);
 		}
 
-		public function bpUpdate() {
-			$this->load->model('bpapers_model');
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Bpaper/';
+		public function bpUpdate() 
+		{
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Bpaper/';
+			$data = $this->bpapers_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$picture = $up?$save_path . $file_name:"";
+			$picture = $data?$savePath . $file_name:"";
 
-			$nowIssue = $this->input->post('nowIssue');
-			$totalIssue = $this->input->post('totalIssue');
+			$nowIssue = $this->input->post('nowIssue', true);
+			$totalIssue = $this->input->post('totalIssue', true);
 			$pubTime = $this->input->post('pubTime');
 			$pubTime = $pubTime . " " . date("h:i:s");
 			$time = date("Y-m-d h:i:s");
-			$bid = $this->uri->segment(4);
+			$bid = intval($this->uri->segment(4));
 
 			$oldPic = $this->bpapers_model->getPicUrl($bid);
-			if ($up) {
+			if ($data) {
 				$path = BASEPATH . "../" . $oldPic->picture;
 				$result = @unlink ($path); 
-			/*	if($result == true){
-					echo  "删除成功";
-				}
-				else{
-					exit("删除失败");
-				}*/
 			}
-
 			$this->bpapers_model->bpUpdate($nowIssue, $totalIssue, $picture, $time, $pubTime, $bid);
 			redirect('bpapers/bpapers/bpapersManage');
 		}
 
-		public function bpDel() {
-			$this->load->model('bpapers_model');
-
+		public function bpDel() 
+		{
 			$check = $this->input->post('check');
 			foreach ($check as $bid) {
+				$bid = intval($bid);
 				$oldPic = $this->bpapers_model->getPicUrl($bid);
 				$path = BASEPATH . "../" . $oldPic->picture;
 				$result = @unlink ($path); 
 
 				$this->bpapers_model->bpDel($bid);
-				$this->bpapers_model->bpArtDelById($bid);
 			}
 			redirect('bpapers/bpapers/bpapersManage');
 		}
 
-	/*--------------排序-----------------------*/
-		public function orderBp() {
-			$this->load->model('bpapers_model');
-			$order = $this->uri->segment(4);
-/*-----page-----*/
-			$page_size = 20;
+		/*-- order --*/
+		public function orderBp() 
+		{
+			$order = intval($this->uri->segment(4));
+			/*-- page --*/
+			$pageSize = 20;
 			$offset = intval($this->uri->segment(5));
 
 			$this->db->from('bnewspaper');
 			$total = $this->db->count_all_results();
+			$pageUri = 'bpapers/bpapers/orderNews/' . $order;
 
-			$config['base_url'] = site_url('bpapers/bpapers/orderNews/' . $order);
-			$config['total_rows'] = $total;
-			$config['per_page'] = $page_size;
-			$config['first_link'] = '首页';
-			$config['last_link'] = '尾页';
-			$config['prev_link'] = '上一页';
-			$config['next_link'] = '下一页';
-			$config['uri_segment'] = 5;
-
-			$this->pagination->initialize($config);
-			$data['page'] = $this->pagination->create_links();
-/*-----page-----*/
+			$data['page'] = $this->bpapers_model->page($pageSize, $offset, $total, $pageUri, 5);
 			$data['total'] = $total;
 
-			$data['bpList'] = $this->bpapers_model->getOrderbp($offset, $page_size, $order);
+			$data['bpList'] = $this->bpapers_model->getOrderbp($offset, $pageSize, $order);
 			$this->load->view('admin/bpapers/bpapers_list', $data);
 		}
 
 /*
-*	Edit By : 阿诺
-*	Time : 2015.8.13
-*	function : 后台控制器-报刊文章管理
-*/
-		public function bpArtAddView() {
-			$this->load->model('bpapers_model');
-			$data['paperid'] = $this->uri->segment(4);
+ * Edit By : LYJ
+ * Time : 2015.8.13
+ * Function : articles
+ * Review : LYJ . 2016.1.22
+ */
+		public function bpArtAddView() 
+		{
+			$data['paperid'] = intval($this->uri->segment(4));
 			$data['pubUser'] = self::$uName;
 
 			$data['bpDetail'] = $this->bpapers_model->getBpById($data['paperid']);
 			$this->load->view('admin/bpapers/bpart_add', $data);
 		}
 
-		public function bpArtAdd() {
-			$this->load->model('bpapers_model');
-
-			$paperid = $this->uri->segment(4);
-			$title = $this->input->post('title');
-			$content = $this->input->post('artContent');
-			$pub_user = $this->input->post('pubUser');
+		public function bpArtAdd() 
+		{
+			$paperid = intval($this->uri->segment(4));
+			$title = $this->input->post('title', true);
+			$content = $this->input->post('artContent', true);
+			$pubUser = $this->input->post('pubUser');
 			$checked = $this->input->post('checked')?1:0;
 			$time = $this->input->post('pubTime');
-			$source = $this->input->post('source');
+			$source = $this->input->post('source', true);
 
-			$this->bpapers_model->bpArtAdd($paperid, $title, $content, $pub_user, $checked, $time, $source);
+			$this->bpapers_model->bpArtAdd($paperid, $title, $content, $pubUser, $checked, $time, $source);
 			redirect('bpapers/bpapers/bpArtList/' . $paperid);
 		}
 
-		public function bpArtList() {
-			$this->load->model('bpapers_model');
-
-/*-----page-----*/
-			$page_size = 20;
+		public function bpArtList() 
+		{
+			/*-- page --*/
+			$pageSize = 20;
 			$offset = intval($this->uri->segment(5));
-
-			$paperid = $this->uri->segment(4);
+			$paperid = intval($this->uri->segment(4));
 
 			$this->db->from('bnpcontent');
 			if ($paperid != 0) {
 				$this->db->where('paperid', $paperid);
 			}
 			$total = $this->db->count_all_results();
+			$pageUri = 'bpapers/bpapers/bpArtList/' . $paperid;
 
-			$config['base_url'] = site_url('bpapers/bpapers/bpArtList/' . $paperid);
-			$config['total_rows'] = $total;
-			$config['per_page'] = $page_size;
-			$config['first_link'] = '首页';
-			$config['last_link'] = '尾页';
-			$config['prev_link'] = '上一页';
-			$config['next_link'] = '下一页';
-			$config['uri_segment'] = 5;
-
-			$this->pagination->initialize($config);
-			$data['page'] = $this->pagination->create_links();
-/*-----page-----*/
+			$data['page'] = $this->bpapers_model->page($pageSize, $offset, $total, $pageUri, 5);
 			$data['total'] = $total;
 
 			$data['bpDetail'] = $this->bpapers_model->getBpById($paperid);
-			$data['bpArtList'] = $this->bpapers_model->getBpArt($offset, $page_size, $paperid);
+			$data['bpArtList'] = $this->bpapers_model->getBpArt($offset, $pageSize, $paperid);
 			$this->load->view('admin/bpapers/bpart_list', $data);
 		}
 
-		public function ischecked() {
-			$this->load->model('bpapers_model');
-
-			$paperid = $this->uri->segment(4);
-			$bpArtId = $this->uri->segment(5);
-			$ischecked = $this->uri->segment(6);
-
+		public function ischecked() 
+		{
+			$paperid = intval($this->uri->segment(4));
+			$bpArtId = intval($this->uri->segment(5));
+			$ischecked = intval($this->uri->segment(6));
+			if ($ischecked != 1 && $ischecked != 0) {
+				exit("error in variable ischecked");
+			}
 			$this->bpapers_model->ischecked($bpArtId, $ischecked);
 			redirect('bpapers/bpapers/bpArtList/' . $paperid);
 		}
 
-		public function bpArtDel() {
-			$this->load->model('bpapers_model');
-
-			$paperid = $this->input->post('paperid');
+		public function bpArtDel() 
+		{
+			$paperid = intval($this->uri->segment(4));
 			$check = $this->input->post('check');
 			foreach ($check as $bpArtId) {
+				$bpArtId = intval($bpArtId);
 				$this->bpapers_model->bpArtDel($bpArtId);
 			}
 			redirect('bpapers/bpapers/bpArtList/' . $paperid);
 		}
 
-		public function bpArtEdit() {
-			$this->load->model('bpapers_model');
-
-			$paperid = $this->uri->segment(4);
-			$bpArtId = $this->uri->segment(5);
+		public function bpArtEdit() 
+		{
+			$paperid = intval($this->uri->segment(4));
+			$bpArtId = intval($this->uri->segment(5));
 
 			$data['pubUser'] = self::$uName;
 			$data['bpDetail'] = $this->bpapers_model->getBpById($paperid);
@@ -298,29 +220,28 @@
 			$this->load->view('admin/bpapers/bpart_edit', $data);
 		}
 
-		public function bpArtUpdate() {
-			$this->load->model('bpapers_model');
-
-			$paperid = $this->uri->segment(4);
-			$bpArtId = $this->uri->segment(5);
-			$title = $this->input->post('title');
-			$content = $this->input->post('artContent');
-			$pub_user = $this->input->post('pubUser');
+		public function bpArtUpdate() 
+		{
+			$paperid = intval($this->uri->segment(4));
+			$bpArtId = intval($this->uri->segment(5));
+			$title = $this->input->post('title', true);
+			$content = $this->input->post('artContent', true);
+			$pubUser = $this->input->post('pubUser');
 			$checked = $this->input->post('checked')?1:0;
 			$time = $this->input->post('pubTime');
-			$source = $this->input->post('source');
+			$source = $this->input->post('source', true);
 
-			$this->bpapers_model->bpArtUpdate($bpArtId, $title, $content, $pub_user, $checked, $time, $source);
+			$this->bpapers_model->bpArtUpdate($bpArtId, $title, $content, $pubUser, $checked, $time, $source);
 			redirect('bpapers/bpapers/bpArtList/' . $paperid);
 		}
 /*
-*	Edit By : 阿诺
-*	Time : 2015.9.7
-*	function : 后台控制器-首页图片
-*/	
-		public function picManage() {
-			$this->load->model('bpapers_model');
-
+ * Edit By : LYJ
+ * Time : 2015.9.7
+ * Function : picture
+ * Review : LYJ . 2016.1.22
+ */	
+		public function picManage() 
+		{
 			$data['pic1'] = $this->bpapers_model->getPic(1);
 			$data['pic2'] = $this->bpapers_model->getPic(2);
 			$data['pic3'] = $this->bpapers_model->getPic(3);
@@ -328,58 +249,30 @@
 			$this->load->view('admin/bpapers/pic_view', $data);
 		}
 
-		public function picEditView() {
-			$this->load->model('bpapers_model');
-
-			$picId = $this->uri->segment(4);
+		public function picEditView() 
+		{
+			$picId = intval($this->uri->segment(4));
 			$data['pic'] = $this->bpapers_model->getPic($picId);
 
 			$this->load->view('admin/bpapers/pic_edit', $data);
 		}
 
-		public function picEdit() {
-			$this->load->model('bpapers_model');
+		public function picEdit() 
+		{
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Bpaper/pic/';
+			$data = $this->bpapers_model->picture($savePath);
 
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Bpaper/pic/';
-
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$pic = $up?$save_path . $file_name:"";
+			$pic = $data?$savePath . $file_name:"";
 
-			$picId = $this->uri->segment(4);
-			$url = "http://" . $this->input->post('link');
+			$picId = intval($this->uri->segment(4));
+			$url = "http://" . $this->input->post('link', true);
 
 			$oldPicUrl = $this->bpapers_model->getP($picId);
-
-			if ($up) {
+			if ($data) {
 				$path = BASEPATH . "../" . $oldPicUrl->pic;
 				$result = @unlink ($path); 
-			/*	if($result == true){
-					echo  "删除成功";
-				}
-				else{
-					exit("删除失败");
-				}*/
 			}
 			$this->bpapers_model->picUpdate($picId, $pic, $url);
 			redirect('bpapers/bpapers/picManage');

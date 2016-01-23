@@ -3,8 +3,6 @@
 	
 	class N extends Ci_Controller 
 	{
-		public static $uName;
-
 		public function __construct() 
 		{
 			parent::__construct();
