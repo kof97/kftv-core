@@ -24,7 +24,7 @@ class Admin_model extends CI_Model
 		$stmt->bind_param("ss", $un, $pwd);
 		$stmt->bind_result($id, $name);
 		$stmt->execute();
-		while($stmt->fetch()){
+		while ($stmt->fetch()) {
 			$res = array('id' => $id, 'user_name' => $name);
 		}
 		$stmt->free_result();
