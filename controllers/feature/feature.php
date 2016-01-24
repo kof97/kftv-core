@@ -67,7 +67,7 @@
 
 		public function featureUpdate() 
 		{
-			$fid = $this->input->post('fid');
+			$fid = intval($this->input->post('fid'));
 			$name = $this->input->post('name', true);
 			$title = $this->input->post('title', true);
 			$info = $this->input->post('info', true);
@@ -108,87 +108,51 @@
 		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$fid = intval($this->uri->segment(4));
-			$operate = $this->input->post('operate');
+			$operate = intval($this->input->post('operate'));
 
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Feature/pic/';
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Feature/pic/';
+	 	  	$data = $this->feature_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$pic = $up?$save_path . $file_name:"";
+			$pic = $data?$savePath . $file_name:"";
 
 			if ($operate == 0) {
 				$name = "logo" . $fid;
 				$this->feature_model->logoAdd($pic, $name, $fid);
 			} else {
 				$old = $this->feature_model->getLogo($fid, "logo" . $fid);
-
-				if ($up) {
+				if ($data) {
 					$path = BASEPATH . "../" . $old->pic;
 					$result = @unlink ($path); 
-				/*	if($result == true){
-						echo  "删除成功";
-					}
-					else{
-						exit("删除失败");
-					}*/
 				}
 				$this->feature_model->logoUpdate($fid, $pic, "logo" . $fid);
 			}
-			
-
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
-	/*
-	 *	Edit By : 阿诺
-	 *	Time : 2015.10.14
-	 *	function : 后台控制器-category
-	 */
-		public function catAddV() {
-			
-
+		/*-- category --*/
+		public function catAddV() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
 			$this->load->view('admin/feature/cat_add', $data);
 		}
 
-		public function catAdd() {
-			
-
+		public function catAdd() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$fid = intval($this->uri->segment(4));
 
 			$name = $this->input->post('name', true);
 			$info = $this->input->post('info', true);
-
 			$this->feature_model->catAdd($name, $info, $fid);
 			
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
-		public function catEdit() {
-			
-
+		public function catEdit() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['cid'] = intval($this->uri->segment(5));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
@@ -197,9 +161,8 @@
 			$this->load->view('admin/feature/cat_edit', $data);
 		}
 
-		public function catUpdate() {
-			
-
+		public function catUpdate() 
+		{
 			$fid = intval($this->uri->segment(4));
 			$cid = intval($this->uri->segment(5));
 			$name = $this->input->post('name', true);
@@ -209,61 +172,35 @@
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
-	/*
-	 *	Edit By : 阿诺
-	 *	Time : 2015.10.14
-	 *	function : 后台控制器-banner
-	 */
-		public function bannerAddV() {
-			
-
+		/*-- banner --*/
+		public function bannerAddV() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
 
 			$this->load->view('admin/feature/banner_add', $data);
 		}
 
-		public function bannerAdd() {
-			
-
+		public function bannerAdd() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$fid = intval($this->uri->segment(4));
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Feature/pic/';
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Feature/pic/';
+			$data = $this->feature_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$pic = $up?$save_path . $file_name:"";
+			$pic = $data?$savePath . $file_name:"";
 
 			$title = $this->input->post('title', true);
 			$url = $this->input->post('url', true);
-
 			$this->feature_model->bannerAdd($title, $url, $pic, $fid);		
+
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
-		public function bannerEdit() {
-			
-
+		public function bannerEdit() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['id'] = intval($this->uri->segment(5));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
@@ -272,114 +209,61 @@
 			$this->load->view('admin/feature/banner_edit', $data);
 		}
 
-		public function bannerUpdate() {
-			
-
+		public function bannerUpdate() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['id'] = intval($this->uri->segment(5));
 			$id = intval($this->uri->segment(5));
 			$fid = intval($this->uri->segment(4));
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Feature/pic/';
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Feature/pic/';
+			$data = $this->feature_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$pic = $up?$save_path . $file_name:"";
-
+			$pic = $data?$savePath . $file_name:"";
 			$title = $this->input->post('title', true);
 			$url = $this->input->post('url', true);
 
 			$old = $this->feature_model->getBanner($fid, $id);
-			if ($up) {
+			if ($data) {
 				$path = BASEPATH . "../" . $old->pic;
 				$result = @unlink ($path); 
-			/*	if($result == true){
-					echo  "删除成功";
-				}
-				else{
-					exit("删除失败");
-				}*/
 			}
 			$this->feature_model->bannerUpdate($title, $pic, $url, $id);
 			
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
-	/*
-	 *	Edit By : 阿诺
-	 *	Time : 2015.10.15
-	 *	function : 后台控制器-art3
-	 */
-		public function art3AddV() {
-			
-
+		/*-- art3 --*/
+		public function art3AddV() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
 
 			$this->load->view('admin/feature/art3_add', $data);
 		}
 
-		public function art3Add() {
-			
-
+		public function art3Add() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$fid = intval($this->uri->segment(4));
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Feature/pic/';
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Feature/pic/';
+			$data = $this->feature_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$pic = $up?$save_path . $file_name:"";
+			$pic = $data?$savePath . $file_name:"";
 
 			$title = $this->input->post('title', true);
 			$url = $this->input->post('url', true);
 			$content = $this->input->post('content', true);
+			$this->feature_model->art3Add($title, $content, $url, $pic, $fid);	
 
-			$this->feature_model->art3Add($title, $content, $url, $pic, $fid);		
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
-		public function art3Edit() {
-			
-
+		public function art3Edit() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['id'] = intval($this->uri->segment(5));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
@@ -388,91 +272,49 @@
 			$this->load->view('admin/feature/art3_edit', $data);
 		}
 
-		public function art3Update() {
-			
-
+		public function art3Update() 
+		{
 			$data['fid'] = intval($this->uri->segment(4));
 			$data['id'] = intval($this->uri->segment(5));
 			$id = intval($this->uri->segment(5));
 			$fid = intval($this->uri->segment(4));
-/*----图片上传-----*/
-			$save_path = 'KFTVresource/Feature/pic/';
+			/*-- picture --*/
+			$savePath = 'KFTVresource/Feature/pic/';
+			$data = $this->feature_model->picture($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'jpg|jpeg|gif|png';
-	  		$config['max_size'] = '2048';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*  		if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-/*			}
-/*----图片上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$pic = $up?$save_path . $file_name:"";
+			$pic = $data?$savePath . $file_name:"";
 
 			$title = $this->input->post('title', true);
 			$url = $this->input->post('url', true);
 			$content = $this->input->post('content', true);
 
 			$old = $this->feature_model->getArt3($fid, $id);
-			if ($up) {
+			if ($data) {
 				$path = BASEPATH . "../" . $old->pic;
 				$result = @unlink ($path); 
-			/*	if($result == true){
-					echo  "删除成功";
-				}
-				else{
-					exit("删除失败");
-				}*/
 			}
 			$this->feature_model->art3Update($title, $content, $pic, $url, $id);
 			
 			redirect('feature/feature/featureView/' . $fid);
 		}
 
- 	/*
-	 *	Edit By : 阿诺
-	 *	Time : 2015.10.16
-	 *	function : 后台控制器-article
-	 */
- 		public function artManageV() {
- 			
-
+ 		/*-- article --*/
+ 		public function artManageV() 
+ 		{
  			$data['fid'] = intval($this->uri->segment(4));
  			$fid = intval($this->uri->segment(4));
 			$data['cid'] = intval($this->uri->segment(5));
 			$cid = intval($this->uri->segment(5));
-/*-----page-----*/
+			/*-- page --*/
 			$pageSize = 20;
 			$offset = intval($this->uri->segment(6));
-
 			$this->db->from('feature_article');
 			$this->db->where('cid', $cid);
 			$total = $this->db->count_all_results();
-
-			$config['base_url'] = site_url('feature/feature/artManageV/' . $fid . '/' . $cid);
-			$config['total_rows'] = $total;
-			$config['per_page'] = $pageSize;
-			$config['first_link'] = '首页';
-			$config['last_link'] = '尾页';
-			$config['prev_link'] = '上一页';
-			$config['next_link'] = '下一页';
-			$config['uri_segment'] = 6;
-
-			$this->pagination->initialize($config);
-			$data['page'] = $this->pagination->create_links();
-/*-----page-----*/
+			$pageUri = 'feature/feature/artManageV/' . $fid . '/' . $cid;
+			
+			$data['page'] = $this->feature_model->page($pageSize, $offset, $total, $pageUri, 6);
 			$data['total'] = $total;
 
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
@@ -481,9 +323,8 @@
 			$this->load->view('admin/feature/art_manage', $data);
  		}
 
- 		public function artAddV() {
- 			
-
+ 		public function artAddV() 
+ 		{
  			$data['fid'] = intval($this->uri->segment(4));
 			$data['cid'] = intval($this->uri->segment(5));
 			$data['feature'] = $this->feature_model->getFeature($data['fid']);
@@ -492,51 +333,29 @@
 			$this->load->view('admin/feature/art_add', $data);
  		}
 
- 		public function artAdd() {
- 			
-
+ 		public function artAdd() 
+ 		{
  			$fid = intval($this->uri->segment(4));
 			$cid = intval($this->uri->segment(5));
-/*----视频上传-----*/
-			$save_path = 'KFTVresource/Feature/video/';
+			/*-- video --*/
+			$savePath = 'KFTVresource/Feature/video/';
+			$data = $this->feature_model->video($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'wmv|mp4|mpeg|avi|mov|3gp|flv|f4v|rmvb';
-	  		$config['max_size'] = '102400';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*调试开启  if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-	/*		}*/
-/*----视频上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$hasVideo = $up?1:0;
-			$video = $up?$save_path . $file_name:"";
+			$hasVideo = $data?1:0;
+			$video = $data?$savePath . $file_name:"";
 
 			$title = $this->input->post('title', true);
 			$content = $this->input->post('content', true);
 			$time = $this->input->post('pubTime') . " " . date("h:i:s");
-
 			$this->feature_model->artAdd($title, $content, $time, $video, $fid, $cid);
-			
+
 			//echo "<script>alert('添加成功');</script>";
 			redirect('feature/feature/artManageV/' . $fid . '/' . $cid);
  		}
 
- 		public function videoView() {
- 			
-
+ 		public function videoView() 
+ 		{
  			$fid = intval($this->uri->segment(4));
 			$cid = intval($this->uri->segment(5));
 			$id = intval($this->uri->segment(6));
@@ -545,9 +364,8 @@
 			$this->load->view('admin/feature/video_view', $data);
  		}
 
- 		public function artEdit() {
- 			
-
+ 		public function artEdit() 
+ 		{
  			$data['fid'] = intval($this->uri->segment(4));
 			$data['cid'] = intval($this->uri->segment(5));
 			$data['id'] = intval($this->uri->segment(6));
@@ -558,74 +376,47 @@
 			$this->load->view('admin/feature/art_edit', $data);
  		}
 
- 		public function artUpdate() {
- 			
-
+ 		public function artUpdate() 
+ 		{
  			$fid = intval($this->uri->segment(4));
 			$cid = intval($this->uri->segment(5));
 			$id = intval($this->uri->segment(6));
-/*----视频上传-----*/
-			$save_path = 'KFTVresource/Feature/video/';
+			/*-- video --*/
+			$savePath = 'KFTVresource/Feature/video/';
+			$data = $this->feature_model->video($savePath);
 
-			$config['overwrite']  = true;
-	  		$config['encrypt_name']  = true;
-
-			$config['upload_path'] = './' . $save_path;
-	  		$config['allowed_types'] = 'wmv|mp4|mpeg|avi|mov|3gp|flv|f4v|rmvb';
-	  		$config['max_size'] = '102400';
-	  		$config['max_width']  = 0;
-	  		$config['max_height']  = 0;
-	  		$config['file_name'] = date("Ymdhis");
-	  
-	  		$this->load->library('upload', $config);
-	 
-/*	 	*/	$up = $this->upload->do_upload('userfile');
-/*调试开启  if ( ! $up ) {
-				$error = array('error' => $this->upload->display_errors());
-	  		 	exit(var_dump($error));
-	  		} else {*/
-	 	  		$data = array('upload_data' => $this->upload->data());
-	/*		}*/
-/*----视频上传-----*/
 			$file_name = $data['upload_data']['file_name'];
-			$hasVideo = $up?1:0;
-			$video = $up?$save_path . $file_name:"";
+			$hasVideo = $data?1:0;
+			$video = $data?$savePath . $file_name:"";
 
 			$title = $this->input->post('title', true);
 			$content = $this->input->post('content', true);
 			$time = $this->input->post('pubTime') . " " . date("h:i:s");
 
 			$old = $this->feature_model->getArt($fid, $cid, $id);
-			if ($up) {
+			if ($data) {
 				$path = BASEPATH . "../" . $old->video;
 				$result = @unlink ($path); 
-			/*	if($result == true){
-					echo  "删除成功";
-				}
-				else{
-					exit("删除失败");
-				}*/
 			}
 			$this->feature_model->artUpdate($title, $content, $time, $video, $id);
 			
 			redirect('feature/feature/artManageV/' . $fid . '/' . $cid);
  		}
 
- 		public function artDel() {
- 			
-
+ 		public function artDel() 
+ 		{
  			$fid = intval($this->uri->segment(4));
 			$cid = intval($this->uri->segment(5));
 
 			$check = $this->input->post('check');
 			foreach ($check as $id) {
+				$id = intval($id);
 				$old = $this->feature_model->getArt($fid, $cid, $id);
 				$path = BASEPATH . "../" . $old->video;
 				$result = @unlink ($path);
 				
 				$this->feature_model->artDel($fid, $cid, $id);
 			}
-
 			redirect('feature/feature/artManageV/' . $fid . '/' . $cid);
  		}
 
