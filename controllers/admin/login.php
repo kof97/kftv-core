@@ -1,10 +1,10 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
- * Edit by : LYJ
- * Time : 2015.7.14
- * Review : LYJ . 2016.1.20
+/**
+ * Edit by: LYJ
+ * Time: 2015.7.14
+ * Review: LYJ . 2016.1.20
  */
 class Login extends CI_Controller
 {

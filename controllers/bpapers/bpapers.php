@@ -22,11 +22,11 @@
 			self::$uName = $_SESSION['username'];
 			self::$uName = self::$uName;
  		}
-/*
- * Edit By : LYJ
- * Time : 2015.8.13
- * Function : newspapers
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.13
+ * Function: newspapers
+ * Review: LYJ . 2016.1.22
  */
 		public function bpapersManage() 
 		{
@@ -134,11 +134,11 @@
 			$this->load->view('admin/bpapers/bpapers_list', $data);
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.13
- * Function : articles
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.13
+ * Function: articles
+ * Review: LYJ . 2016.1.22
  */
 		public function bpArtAddView() 
 		{
@@ -234,11 +234,11 @@
 			$this->bpapers_model->bpArtUpdate($bpArtId, $title, $content, $pubUser, $checked, $time, $source);
 			redirect('bpapers/bpapers/bpArtList/' . $paperid);
 		}
-/*
- * Edit By : LYJ
- * Time : 2015.9.7
- * Function : picture
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.9.7
+ * Function: picture
+ * Review: LYJ . 2016.1.22
  */	
 		public function picManage() 
 		{

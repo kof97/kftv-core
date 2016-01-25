@@ -32,7 +32,7 @@ class Bpapers_model extends CI_Model
 		$this->load->library('upload', $config);
 	
 		$up = $this->upload->do_upload('userfile');
-		/*debug if ( ! $up ) { 
+		/*debug if ( ! $up ) {
 					$error = array('error' => $this->upload->display_errors());
 				 	exit(var_dump($error));
 				} else {*/

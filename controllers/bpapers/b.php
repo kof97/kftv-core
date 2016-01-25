@@ -14,11 +14,11 @@
 			$this->load->model('bpapers_model');
  		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.14
- * Function : front end
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.14
+ * Function: front end
+ * Review: LYJ . 2016.1.22
  */
 		public function show()
 		{
