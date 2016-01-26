@@ -19,11 +19,11 @@
 			$this->load->model('radio_model');
  		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.9.13
- * Function : radio
- * Review : LYJ . 2016.1.23
+/**
+ * Edit By: LYJ
+ * Time: 2015.9.13
+ * Function: radio
+ * Review: LYJ . 2016.1.23
  */
 		public function getRadioById() 
 		{

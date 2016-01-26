@@ -23,11 +23,12 @@
 			$this->load->helper(array('form', 'url'));
 			$this->load->model('news_model');
  		}
-/*
- * Edit By : LYJ
- * Time : 2015.7.14
- * Function : category
- * Review : LYJ . 2016.1.20
+
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.14
+ * Function: category
+ * Review: LYJ . 2016.1.20
  */
 		public function categoryManage() 
 		{
@@ -101,11 +102,11 @@
 			redirect('news/news/categoryManage');
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Function : news
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Function: news
+ * Review: LYJ . 2016.1.21
  */
 		public function artAddView() 
 		{
@@ -184,11 +185,12 @@
 
 			redirect("news/news/artAddViewJump");
 		}
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Function : news
- * Review : LYJ . 2016.1.21
+
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Function: news
+ * Review: LYJ . 2016.1.21
  */
 		public function showNews() 
 		{
@@ -325,11 +327,11 @@
 			redirect('news/news/showNews');
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.26
- * Function : video
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.26
+ * Function: video
+ * Review: LYJ . 2016.1.21
  */
 		public function videoManage() 
 		{
@@ -406,11 +408,11 @@
 			$this->load->view('admin/news/video_view', $data);			
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.16
- * Function : comment
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.16
+ * Function: comment
+ * Review: LYJ . 2016.1.21
  */
 		public function showCommentsByNew() 
 		{
@@ -483,11 +485,11 @@
 			$this->load->view('admin/news/news_c_unchecked', $data);
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.23
- * Function : picture
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.23
+ * Function: picture
+ * Review: LYJ . 2016.1.22
  */
 		public function picManage() 
 		{

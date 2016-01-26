@@ -11,11 +11,11 @@ class Bpapers_model extends CI_Model
 		$this->load->database();
 	}
 	
-/*
- * Edit By : LYJ
- * Time : 2015.8.13
- * Function : newspapers
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.13
+ * Function: newspapers
+ * Review: LYJ . 2016.1.22
  */
 	function picture($savePath)
 	{
@@ -131,11 +131,11 @@ class Bpapers_model extends CI_Model
 		return $query->result();
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.13
- * Function : articles
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.13
+ * Function: articles
+ * Review: LYJ . 2016.1.22
  */
 	function bpArtAdd($paperid, $title, $content, $pubUser, $checked, $time, $source) 
 	{
@@ -217,11 +217,11 @@ class Bpapers_model extends CI_Model
 		$stmt->close();
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.14
- * Function : front end
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.14
+ * Function: front end
+ * Review: LYJ . 2016.1.22
  */
 	function getBpList($offset, $page_size) 
 	{

@@ -11,10 +11,10 @@ class Admin_model extends CI_Model
 		$this->load->database();
 	}
 	
-/*
- * Edit By : LYJ
- * Time : 2015.7.14
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.14
+ * Review: LYJ . 2016.1.21
  */
 	function check($un, $pwd)
 	{
@@ -53,11 +53,4 @@ class Admin_model extends CI_Model
 		return $flag;
 	}
 
-
 }
-
-
-
-
-
-

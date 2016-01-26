@@ -13,11 +13,11 @@
 			$this->load->helper(array('form', 'url'));
  		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.9.13
- * Function : front end
- * Review : LYJ . 2016.1.23
+/**
+ * Edit By: LYJ
+ * Time: 2015.9.13
+ * Function: front end
+ * Review: LYJ . 2016.1.23
  */
 		public function dt() 
 		{

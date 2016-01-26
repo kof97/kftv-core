@@ -15,11 +15,11 @@
 			$this->load->model('program_model');
  		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.13
- * Function : front end
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.13
+ * Function: front end
+ * Review: LYJ . 2016.1.22
  */
 		public function show()
 		{
@@ -257,11 +257,11 @@
 			$this->load->view('news/pic_news', $data);
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.23
- * Function : front end comment
- * LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.23
+ * Function: front end comment
+ * Review: LYJ . 2016.1.22
  */
 		public function pubComment0() 
 		{

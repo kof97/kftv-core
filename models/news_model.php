@@ -11,11 +11,11 @@ class News_model extends CI_Model
 		$this->load->database();
 	}
 	
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Function : catgory
- * Review : LYJ . 2016.1.20
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Function: catgory
+ * Review: LYJ . 2016.1.20
  */
 	function picture($savePath)
 	{
@@ -158,10 +158,10 @@ class News_model extends CI_Model
 		$query = $this->db->query($sql);
       	return $query->row()->category_name;
 	}
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Review: LYJ . 2016.1.21
  */
 	function artAdd($artTitle, $artContent, $source, $pubTime, $pubUser, $top, $hasVideo, $videoUrl, $isChecked, $cid, $catName, $checkC) 
 	{
@@ -175,11 +175,11 @@ class News_model extends CI_Model
 		$stmt->close();
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Function : news
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Function: news
+ * Review: LYJ . 2016.1.21
  */
 	function getAllNews($offset, $pageSize) 
 	{
@@ -302,11 +302,11 @@ class News_model extends CI_Model
 		$this->db->query($sql);
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Function : comment
- * Review : LYJ . 2016.1.21
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Function: comment
+ * Review: LYJ . 2016.1.21
  */
 	function getArtNameById($artId) 
 	{
@@ -348,11 +348,11 @@ class News_model extends CI_Model
 		return $count;
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.15
- * Function : picture
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.15
+ * Function: picture
+ * Review: LYJ . 2016.1.22
  */
 	function getPic($picId) 
 	{
@@ -382,12 +382,11 @@ class News_model extends CI_Model
 		$stmt->close();
 	}
 
-
-/*
- * Edit By : LYJ
- * Time : 2015.7.17
- * Function : front end
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.17
+ * Function: front end
+ * Review: LYJ . 2016.1.22
  */	
 	function getNewsByCat($offset, $pageSize, $catId) 
 	{
@@ -458,11 +457,11 @@ class News_model extends CI_Model
 		return $total;
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.7.22
- * Function : front end operate
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.7.22
+ * Function: front end operate
+ * Review: LYJ . 2016.1.22
  */	
 	function addHits($artId) 
 	{
@@ -495,26 +494,5 @@ class News_model extends CI_Model
 		$stmt->execute();
 		$stmt->close();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

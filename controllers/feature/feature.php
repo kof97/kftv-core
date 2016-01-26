@@ -19,11 +19,12 @@
 			$this->load->helper(array('form', 'url'));
 			$this->load->model('feature_model');
  		}
-/*
- * Edit By : LYJ
- * Time : 2015.10.14
- * Function : sub site
- * Review : LYJ . 2016.1.23
+
+/**
+ * Edit By: LYJ
+ * Time: 2015.10.14
+ * Function: sub site
+ * Review: LYJ . 2016.1.23
  */	
 		public function featureAddView() 
 		{
@@ -76,11 +77,11 @@
 			redirect('feature/feature/featureManage');
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.10.14
- * Function : infomation about the sub site
- * Review : LYJ . 2016.1.23
+/**
+ * Edit By: LYJ
+ * Time: 2015.10.14
+ * Function: infomation about the sub site
+ * Review: LYJ . 2016.1.23
  */	
 		public function featureView() 
 		{

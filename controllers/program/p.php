@@ -15,11 +15,11 @@
 			$this->load->model('program_model');
  		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.9.7
- * Function : front end
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.9.7
+ * Function: front end
+ * Review: LYJ . 2016.1.22
  */
 		public function sp()
 		{
@@ -35,7 +35,6 @@
 
 			$this->load->view('news/program_list', $data);
 		}
-
 		
 		public function pc() 
 		{

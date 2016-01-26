@@ -11,11 +11,11 @@ class Program_model extends CI_Model
 		$this->load->database();
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.20
- * Function : program
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.20
+ * Function: program
+ * Review: LYJ . 2016.1.22
  */
 	function picture($savePath)
 	{
@@ -151,11 +151,11 @@ class Program_model extends CI_Model
 		$stmt->close();
 	}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.21
- * Function : video
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.21
+ * Function: video
+ * Review: LYJ . 2016.1.22
  */
 	function getUsingProgram() 
 	{

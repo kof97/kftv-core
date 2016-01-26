@@ -24,11 +24,11 @@
 			self::$uName = self::$uName;			
  		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.20
- * Function : program
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.20
+ * Function: program
+ * Review: LYJ . 2016.1.22
  */
 		public function pAddView() 
 		{
@@ -130,11 +130,11 @@
 			redirect('program/program/pManage/');
 		}
 
-/*
- * Edit By : LYJ
- * Time : 2015.8.20
- * Function : video
- * Review : LYJ . 2016.1.22
+/**
+ * Edit By: LYJ
+ * Time: 2015.8.20
+ * Function: video
+ * Review: LYJ . 2016.1.22
  */
 		public function pVideoAddView() 
 		{
