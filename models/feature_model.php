@@ -33,6 +33,55 @@ class Feature_model extends CI_Model
 		return $page;
 	}
 
+	function picture($savePath)
+	{
+		$config['overwrite']  = true;
+		$config['encrypt_name']  = true;
+
+		$config['upload_path'] = './' . $savePath;
+		$config['allowed_types'] = 'jpg|jpeg|gif|png';
+		$config['max_size'] = '2048';
+		$config['max_width']  = 0;
+		$config['max_height']  = 0;
+		$config['file_name'] = date("Ymdhis");
+	
+		$this->load->library('upload', $config);
+	
+		$up = $this->upload->do_upload('userfile');
+		/*debug if ( ! $up ) {
+					$error = array('error' => $this->upload->display_errors());
+				 	exit(var_dump($error));
+				} else {*/
+			  		$data = array('upload_data' => $this->upload->data());
+		/*		} */
+		return $up?$data:0;
+	}
+
+	function video($savePath) 
+	{
+		$config['overwrite']  = true;
+	  	$config['encrypt_name']  = true;
+
+		$config['upload_path'] = './' . $savePath;
+	  	$config['allowed_types'] = '*';
+	  	$config['max_size'] = '102400';
+	  	$config['max_width']  = 0;
+	  	$config['max_height']  = 0;
+	  	$config['file_name'] = date("Ymdhis");
+	  
+	  	$this->load->library('upload', $config);
+	 
+		$up = $this->upload->do_upload('userfile');
+		/*debug 
+			if ( ! $up ) {
+				$error = array('error' => $this->upload->display_errors());
+		  		exit(var_dump($error));
+		  	} else {*/
+		 	  	$data = array('upload_data' => $this->upload->data());
+		/*	}*/
+		return $up?$data:0;
+	}
+
 	function featureAdd($name, $title, $info) 
 	{
 		$stmt = $this->db->conn_id->stmt_init();
