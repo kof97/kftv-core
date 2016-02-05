@@ -12,7 +12,7 @@ class Feature_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author LYJ
  * Time: 2015.10.14
  * Function: sub site
  * Review: LYJ . 2016.1.23
