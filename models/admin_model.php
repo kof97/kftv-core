@@ -12,9 +12,13 @@ class Admin_model extends CI_Model
 	}
 	
 /**
- * Edit By: LYJ
- * Time: 2015.7.14
- * Review: LYJ . 2016.1.21
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.21
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.7.14
+ * @link 	 https://git.oschina.net/kofyu/KFTV-core
  */
 	function check($un, $pwd)
 	{

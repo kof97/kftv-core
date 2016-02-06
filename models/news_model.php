@@ -12,10 +12,13 @@ class News_model extends CI_Model
 	}
 	
 /**
- * Edit By: LYJ
- * Time: 2015.7.15
- * Function: catgory
- * Review: LYJ . 2016.1.20
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.20
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.7.15
+ * @link 	 https://git.oschina.net/kofyu/KFTV-core
  */
 	function picture($savePath)
 	{
@@ -159,9 +162,10 @@ class News_model extends CI_Model
       	return $query->row()->category_name;
 	}
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.15
- * Review: LYJ . 2016.1.21
+ * Reviewed by LYJ . 2016.1.21
  */
 	function artAdd($artTitle, $artContent, $source, $pubTime, $pubUser, $top, $hasVideo, $videoUrl, $isChecked, $cid, $catName, $checkC) 
 	{
@@ -176,10 +180,11 @@ class News_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.15
  * Function: news
- * Review: LYJ . 2016.1.21
+ * Reviewed by LYJ . 2016.1.21
  */
 	function getAllNews($offset, $pageSize) 
 	{
@@ -303,10 +308,11 @@ class News_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.15
  * Function: comment
- * Review: LYJ . 2016.1.21
+ * Reviewed by LYJ . 2016.1.21
  */
 	function getArtNameById($artId) 
 	{
@@ -349,10 +355,11 @@ class News_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.15
  * Function: picture
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */
 	function getPic($picId) 
 	{
@@ -383,10 +390,11 @@ class News_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.17
  * Function: front end
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */	
 	function getNewsByCat($offset, $pageSize, $catId) 
 	{
@@ -458,10 +466,11 @@ class News_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.22
  * Function: front end operate
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */	
 	function addHits($artId) 
 	{

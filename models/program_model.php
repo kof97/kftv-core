@@ -12,10 +12,13 @@ class Program_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
- * Time: 2015.8.20
- * Function: program
- * Review: LYJ . 2016.1.22
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.22
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.8.20
+ * @link 	 https://git.oschina.net/kofyu/KFTV-core
  */
 	function picture($savePath)
 	{
@@ -152,10 +155,11 @@ class Program_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.8.21
  * Function: video
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */
 	function getUsingProgram() 
 	{

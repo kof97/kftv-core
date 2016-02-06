@@ -12,10 +12,13 @@ class Bpapers_model extends CI_Model
 	}
 	
 /**
- * Edit By: LYJ
- * Time: 2015.8.13
- * Function: newspapers
- * Review: LYJ . 2016.1.22
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.22
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.8.13
+ * @link 	 https://git.oschina.net/kofyu/KFTV-core
  */
 	function picture($savePath)
 	{
@@ -132,10 +135,11 @@ class Bpapers_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.8.13
  * Function: articles
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */
 	function bpArtAdd($paperid, $title, $content, $pubUser, $checked, $time, $source) 
 	{
@@ -218,10 +222,11 @@ class Bpapers_model extends CI_Model
 	}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.8.14
  * Function: front end
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */
 	function getBpList($offset, $page_size) 
 	{

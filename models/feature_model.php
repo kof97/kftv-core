@@ -12,11 +12,14 @@ class Feature_model extends CI_Model
 	}
 
 /**
- * @author LYJ
- * Time: 2015.10.14
- * Function: sub site
- * Review: LYJ . 2016.1.23
- */		
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.23
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.10.14
+ * @link 	 https://git.oschina.net/kofyu/KFTV-core
+ */	
 	function page($pageSize, $offset, $total, $pageUri, $uriSegment = 4) 
 	{
 		$config['base_url'] = site_url($pageUri);
