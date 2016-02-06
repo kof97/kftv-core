@@ -1,5 +1,5 @@
 <?php
-if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+if ( ! defined('BASEPATH') ) exit('No direct script access allowed');
 
 class Admin_model extends CI_Model
 {
@@ -18,7 +18,7 @@ class Admin_model extends CI_Model
  * @category PHP
  * @author 	 LYJ <1048434786@qq.com>
  * @version  2015.7.14
- * @link 	 https://git.oschina.net/kofyu/KFTV-core
+ * @link 	 https://git.oschina.net/kofyu/KFTV-complete
  */
 	function check($un, $pwd)
 	{

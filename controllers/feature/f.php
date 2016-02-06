@@ -1,5 +1,5 @@
 <?php 
-	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	if ( ! defined('BASEPATH') ) exit('No direct script access allowed');
 	error_reporting(E_ALL ^ E_NOTICE);
 	
 	class F extends Ci_Controller 
@@ -16,10 +16,13 @@
  		}
 
 /**
- * Edit By: LYJ
- * Time: 2015.10.16
- * Function: front end
- * Review: LYJ . 2016.1.25
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.25
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.10.16
+ * @link 	 https://git.oschina.net/kofyu/KFTV-complete
  */
 		public function feature() 
 		{

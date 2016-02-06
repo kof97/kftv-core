@@ -1,5 +1,5 @@
 <?php 
-	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	if ( ! defined('BASEPATH') ) exit('No direct script access allowed');
 	
 	class Bpapers extends Ci_Controller 
 	{
@@ -23,10 +23,13 @@
 			self::$uName = self::$uName;
  		}
 /**
- * Edit By: LYJ
- * Time: 2015.8.13
- * Function: newspapers
- * Review: LYJ . 2016.1.22
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.22
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.8.13
+ * @link 	 https://git.oschina.net/kofyu/KFTV-complete
  */
 		public function bpapersManage() 
 		{
@@ -135,10 +138,11 @@
 		}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.8.13
  * Function: articles
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */
 		public function bpArtAddView() 
 		{
@@ -235,10 +239,11 @@
 			redirect('bpapers/bpapers/bpArtList/' . $paperid);
 		}
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.9.7
  * Function: picture
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */	
 		public function picManage() 
 		{

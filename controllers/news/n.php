@@ -1,5 +1,5 @@
 <?php 
-	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	if ( ! defined('BASEPATH') ) exit('No direct script access allowed');
 	
 	class N extends Ci_Controller 
 	{
@@ -16,10 +16,13 @@
  		}
 
 /**
- * Edit By: LYJ
- * Time: 2015.7.13
- * Function: front end
- * Review: LYJ . 2016.1.22
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.22
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.7.13
+ * @link 	 https://git.oschina.net/kofyu/KFTV-complete
  */
 		public function show()
 		{
@@ -258,10 +261,11 @@
 		}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.7.23
  * Function: front end comment
- * Review: LYJ . 2016.1.22
+ * Reviewed by LYJ . 2016.1.22
  */
 		public function pubComment0() 
 		{

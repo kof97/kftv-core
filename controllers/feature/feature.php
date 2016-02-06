@@ -1,5 +1,5 @@
 <?php 
-	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	if ( ! defined('BASEPATH') ) exit('No direct script access allowed');
 	
 	class Feature extends Ci_Controller 
 	{
@@ -21,11 +21,14 @@
  		}
 
 /**
- * Edit By: LYJ
- * Time: 2015.10.14
- * Function: sub site
- * Review: LYJ . 2016.1.23
- */	
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.23
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.10.14
+ * @link 	 https://git.oschina.net/kofyu/KFTV-complete
+ */
 		public function featureAddView() 
 		{
 			$this->load->view('admin/feature/feature_add');
@@ -78,10 +81,11 @@
 		}
 
 /**
- * Edit By: LYJ
+ * @author 	 LYJ <1048434786@qq.com>
+ *
  * Time: 2015.10.14
  * Function: infomation about the sub site
- * Review: LYJ . 2016.1.23
+ * Reviewed by LYJ . 2016.1.23
  */	
 		public function featureView() 
 		{

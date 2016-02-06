@@ -1,5 +1,5 @@
 <?php 
-	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+	if ( ! defined('BASEPATH') ) exit('No direct script access allowed');
 	
 	class Radio extends Ci_Controller 
 	{
@@ -20,10 +20,13 @@
  		}
 
 /**
- * Edit By: LYJ
- * Time: 2015.9.13
- * Function: radio
- * Review: LYJ . 2016.1.23
+ * PHP version 5
+ * Reviewed by LYJ . 2016.1.23
+ *
+ * @category PHP
+ * @author 	 LYJ <1048434786@qq.com>
+ * @version  2015.9.13
+ * @link 	 https://git.oschina.net/kofyu/KFTV-complete
  */
 		public function getRadioById() 
 		{
